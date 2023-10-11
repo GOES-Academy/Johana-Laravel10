@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 class DepartamentoController extends Controller
 {
     //Lista de Departamentos
@@ -29,6 +29,13 @@ class DepartamentoController extends Controller
     //Lista por un id especifico
     public function show($id)
 {
+    $validator = Validator::make(['id' => $id], [
+        'id' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 422);
+    }
     $departamentos = [
         ['id' => 1, 'nombre' => 'Ahuachapan'],
         ['id' => 2, 'nombre' => 'Santa Ana'],
